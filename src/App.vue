@@ -17,9 +17,13 @@ import HelloWorld from './components/HelloWorld.vue'
 export default class App extends Vue {}
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+<style lang="scss">
+
+  $font-stack:  'Avenir', Helvetica, Arial, sans-serif;
+  $primary-color: #333;
+
+  #app {
+  font-family:  $font-stack;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
