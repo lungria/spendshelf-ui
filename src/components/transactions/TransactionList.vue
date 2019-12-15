@@ -1,7 +1,7 @@
 <template>
-  <table class="table" id="app">
+  <table class="table is-striped is-fullwidth" id="app">
     <thead>
-    <tr>
+    <tr class="is-size-6 is-size-7-mobile">
       <td>Id</td>
       <td>Description</td>
       <td>MCC</td>
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Provide, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import TransactionData from '@/models/TransactionData'
 import Transaction from '@/components/transactions/Transaction.vue'
 
@@ -30,19 +30,8 @@ export default class TransactionList extends Vue {
       new TransactionData(101, 'fasfasf', 1213, 'on4', new Date(2019, 3, 2, 1, 12)),
       new TransactionData(102, 'asd', 123, 'obq3', new Date(2019, 2, 2, 1, 12))
     ].sort((x, y) => y.DateTime.getTime() - x.DateTime.getTime())
-
-    @Provide() formatter = new Intl.NumberFormat('en-us', { minimumFractionDigits: 2 })
 }
-
 </script>
 
 <style lang="scss">
-  #app {
-    font-family: $font-stack;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-  }
 </style>

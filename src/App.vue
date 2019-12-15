@@ -1,30 +1,25 @@
 <template>
-  <TransactionList />
+  <Page v-slot:content>
+    <TransactionList/>
+  </Page>
 </template>
 
 <script lang="ts">
 
-import { Component, Vue } from 'vue-property-decorator'
-import TransactionData from '@/models/TransactionData'
-import Transaction from '@/components/transactions/Transaction.vue'
+import { Component, Provide, Vue } from 'vue-property-decorator'
 import TransactionList from '@/components/transactions/TransactionList.vue'
+import Page from '@/components/page/Page.vue'
 
   @Component({
-    components: { TransactionList }
+    components: { Page, TransactionList }
   })
 export default class App extends Vue {
-
+    @Provide() formatter = new Intl.NumberFormat('en-us', { minimumFractionDigits: 2 })
 }
 
 </script>
 
 <style lang="scss">
   #app {
-    font-family: $font-stack;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
   }
 </style>

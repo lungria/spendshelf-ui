@@ -1,5 +1,5 @@
 <template>
-  <tr id="transaction" class="table">
+  <tr id="transaction" class="table is-size-6-desktop is-size-7-mobile">
     <td>{{this.Data.ID}}</td>
     <td>{{this.Data.Description}}</td>
     <td>{{this.Data.MCC}}</td>
@@ -29,5 +29,4 @@ export default class Transaction extends Vue {
 </script>
 
 <style scoped>
-
-</style>sh
+</style>

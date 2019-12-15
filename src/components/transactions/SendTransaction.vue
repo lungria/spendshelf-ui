@@ -16,4 +16,4 @@ export default class SendTransaction extends Vue {
 
 <style scoped>
 
-</style>sh
+</style>
