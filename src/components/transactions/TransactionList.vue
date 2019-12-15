@@ -16,8 +16,7 @@
 </template>
 
 <script lang="ts">
-
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Provide, Vue } from 'vue-property-decorator'
 import TransactionData from '@/models/TransactionData'
 import Transaction from '@/components/transactions/Transaction.vue'
 
@@ -31,6 +30,8 @@ export default class TransactionList extends Vue {
       new TransactionData(101, 'fasfasf', 1213, 'on4', new Date(2019, 3, 2, 1, 12)),
       new TransactionData(102, 'asd', 123, 'obq3', new Date(2019, 2, 2, 1, 12))
     ].sort((x, y) => y.DateTime.getTime() - x.DateTime.getTime())
+
+    @Provide() formatter = new Intl.NumberFormat('en-us', { minimumFractionDigits: 2 })
 }
 
 </script>

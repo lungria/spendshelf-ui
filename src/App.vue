@@ -13,6 +13,7 @@ import TransactionList from '@/components/transactions/TransactionList.vue'
     components: { TransactionList }
   })
 export default class App extends Vue {
+
 }
 
 </script>

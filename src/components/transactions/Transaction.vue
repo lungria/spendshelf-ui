@@ -3,22 +3,25 @@
     <td>{{this.Data.ID}}</td>
     <td>{{this.Data.Description}}</td>
     <td>{{this.Data.MCC}}</td>
-    <td>₴{{this.Data.Amount}}</td>
+    <td>₴{{this.FormattedAmount}}</td>
     <td>{{this.Data.DateTime.toLocaleDateString()}}</td>
   </tr>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Inject, Prop, Vue } from 'vue-property-decorator'
 import TransactionData from '@/models/TransactionData'
 
 @Component
 export default class Transaction extends Vue {
+  @Inject() readonly formatter!: Intl.NumberFormat
+
   @Prop()
   Data?: TransactionData
+
   get FormattedAmount () {
     if (this.Data) {
-      return new Intl.NumberFormat('en-us', { minimumFractionDigits: 2 }).format(this.Data.Amount)
+      return this.formatter.format(this.Data.Amount)
     } else return '0.00'
   }
 }
