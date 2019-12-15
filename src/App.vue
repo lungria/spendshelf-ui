@@ -1,9 +1,5 @@
 <template>
-  <table class="table" id="app">
-    <tbody>
-     <Transaction v-for="t in info" v-bind:key="t.ID" v-bind:Data="t" />
-    </tbody>
-  </table>
+  <TransactionList />
 </template>
 
 <script lang="ts">
@@ -11,17 +7,12 @@
 import { Component, Vue } from 'vue-property-decorator'
 import TransactionData from '@/models/TransactionData'
 import Transaction from '@/components/transactions/Transaction.vue'
+import TransactionList from '@/components/transactions/TransactionList.vue'
 
   @Component({
-    components: { Transaction }
+    components: { TransactionList }
   })
 export default class App extends Vue {
-    info: TransactionData[] = [
-      new TransactionData(100, 'ATB', 123, 'ob1', new Date(2019, 12, 2, 1, 12)),
-      new TransactionData(102, 'asd', 123, 'ob3', new Date(2019, 4, 2, 1, 12)),
-      new TransactionData(101, 'fasfasf', 1213, 'on4', new Date(2019, 3, 2, 1, 12)),
-      new TransactionData(102, 'asd', 123, 'obq3', new Date(2019, 2, 2, 1, 12))
-    ].sort((x, y) => y.DateTime.getTime() - x.DateTime.getTime())
 }
 
 </script>

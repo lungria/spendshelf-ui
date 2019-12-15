@@ -2,10 +2,10 @@ export default class TransactionData {
   Amount: number;
   Description: string;
   MCC: number;
-  ID: string;
+  ID: TransactionId;
   DateTime: Date;
 
-  constructor (Amount: number, Description: string, MCC: number, ID: string, DateTime: Date) {
+  constructor (Amount: number, Description: string, MCC: number, ID: TransactionId, DateTime: Date) {
     this.ID = ID
     this.Amount = Amount
     this.Description = Description
@@ -13,3 +13,5 @@ export default class TransactionData {
     this.DateTime = DateTime
   }
 }
+
+export type TransactionId = string;

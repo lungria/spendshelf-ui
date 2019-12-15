@@ -1,9 +1,9 @@
 <template>
-  <tr id="transaction">
+  <tr id="transaction" class="table">
     <td>{{this.Data.ID}}</td>
     <td>{{this.Data.Description}}</td>
-    <td>{{this.Data.Amount}}</td>
     <td>{{this.Data.MCC}}</td>
+    <td>₴{{this.Data.Amount}}</td>
     <td>{{this.Data.DateTime.toLocaleDateString()}}</td>
   </tr>
 </template>
@@ -16,6 +16,11 @@ import TransactionData from '@/models/TransactionData'
 export default class Transaction extends Vue {
   @Prop()
   Data?: TransactionData
+  get FormattedAmount () {
+    if (this.Data) {
+      return new Intl.NumberFormat('en-us', { minimumFractionDigits: 2 }).format(this.Data.Amount)
+    } else return '0.00'
+  }
 }
 
 </script>
