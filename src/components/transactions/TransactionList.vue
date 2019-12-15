@@ -7,6 +7,7 @@
       <td>MCC</td>
       <td>Amount</td>
       <td>Date</td>
+      <td/>
     </tr>
     </thead>
     <tbody>

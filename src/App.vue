@@ -2,6 +2,7 @@
   <Page v-slot:content>
     <TransactionList/>
   </Page>
+
 </template>
 
 <script lang="ts">

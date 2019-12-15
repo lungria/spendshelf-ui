@@ -5,14 +5,17 @@
     <td>{{this.Data.MCC}}</td>
     <td>₴{{this.FormattedAmount}}</td>
     <td>{{this.Data.DateTime.toLocaleDateString()}}</td>
+    <SendTransaction v-bind:transaction-id="this.Data.ID"/>
   </tr>
 </template>
 
 <script lang="ts">
 import { Component, Inject, Prop, Vue } from 'vue-property-decorator'
 import TransactionData from '@/models/TransactionData'
-
-@Component
+import SendTransaction from '@/components/transactions/SendTransaction.vue'
+@Component({
+  components: { SendTransaction }
+})
 export default class Transaction extends Vue {
   @Inject() readonly formatter!: Intl.NumberFormat
 
