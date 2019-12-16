@@ -23,6 +23,7 @@ import FuzzySet from 'fuzzyset.js'
 @Component
 export default class DropdownWithInput extends Vue {
   clickedOnInput: boolean = false
+  allowToTravelByArrow: boolean = true
   mouseOverInput: boolean = false
   enteringData: boolean = false
   mouseOverList: boolean = false
@@ -63,12 +64,15 @@ export default class DropdownWithInput extends Vue {
     console.log('debounced')
     if (!this.categoryName) {
       this.Filtered = this.Items
+      this.allowToTravelByArrow = true
       return
     }
     let fuzzed = this.fuzzy.get(this.categoryName)
     if (fuzzed) {
       this.Filtered = fuzzed.map((value: [number, string]) => value[1])
+      this.allowToTravelByArrow = true
     } else {
+      this.allowToTravelByArrow = false
       this.Filtered = ['Press Enter to save new category'] // TODO: forbit to traverse by arrows
     }
   }
@@ -80,6 +84,9 @@ export default class DropdownWithInput extends Vue {
   }
 
   IncSelectedItemIndex () {
+    if (!this.allowToTravelByArrow) {
+      return
+    }
     this.IncSelectedItemIndexRid = window.requestAnimationFrame(() => {
       if (this.selectedItemIndex < this.Filtered.length - 1) {
         this.selectedItemIndex++
@@ -94,6 +101,9 @@ export default class DropdownWithInput extends Vue {
   }
 
   DecSelectedItemIndex () {
+    if (!this.allowToTravelByArrow) {
+      return
+    }
     this.DecSelectedItemIndexRid = window.requestAnimationFrame(() => {
       if (this.selectedItemIndex > -1) {
         this.selectedItemIndex--
