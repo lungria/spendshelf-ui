@@ -65,11 +65,11 @@ export default class DropdownWithInput extends Vue {
       this.Filtered = this.Items
       return
     }
-    let fuzzed = this.fuzzy.get(this.categoryName) //
+    let fuzzed = this.fuzzy.get(this.categoryName)
     if (fuzzed) {
-      this.Filtered = fuzzed.map((value: [number, string]) => value[1]) // can we take parameter here by index??
+      this.Filtered = fuzzed.map((value: [number, string]) => value[1])
     } else {
-      this.Filtered = []
+      this.Filtered = ['Press Enter to save new category'] // TODO: forbit to traverse by arrows
     }
   }
 
