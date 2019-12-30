@@ -39,14 +39,13 @@ export default class DropdownWithInput extends Vue {
   Filtered!: Array<string>
   constructor () {
     super()
-    this.debouncer = _.debounce(this.Hide, 500)
+    this.debouncer = _.debounce(this.Hide, 100)
     this.Filtered = this.Items
     this.fuzzy = FuzzySet(this.Items)
   }
 
   InputLetter () {
     this.enteringData = true
-    console.log(this.categoryName)
     this.debouncer()
   }
 
@@ -61,7 +60,6 @@ export default class DropdownWithInput extends Vue {
   Hide () {
     this.enteringData = false
     this.selectedItemIndex = -1
-    console.log('debounced')
     if (!this.categoryName) {
       this.Filtered = this.Items
       this.allowToTravelByArrow = true
