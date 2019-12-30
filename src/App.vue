@@ -1,29 +1,26 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-  </div>
+  <Page v-slot:content>
+    <TransactionList/>
+  </Page>
+
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import HelloWorld from './components/HelloWorld.vue'
 
-@Component({
-  components: {
-    HelloWorld
-  }
-})
-export default class App extends Vue {}
+import { Component, Provide, Vue } from 'vue-property-decorator'
+import TransactionList from '@/components/transactions/TransactionList.vue'
+import Page from '@/components/page/Page.vue'
+
+  @Component({
+    components: { Page, TransactionList }
+  })
+export default class App extends Vue {
+    @Provide() formatter = new Intl.NumberFormat('en-us', { minimumFractionDigits: 2 })
+}
+
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="scss">
+  #app {
+  }
 </style>

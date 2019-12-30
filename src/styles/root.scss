@@ -1,0 +1,37 @@
+@import "../../node_modules/bulma";
+
+.input{
+  padding: 0;
+  border-radius: 0;
+  border-top-style: none;
+  border-left-style: none;
+  border-right-style: none;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  background: inherit;
+  &:hover{
+    border-radius: 0;
+    border-top-style: none;
+    border-left-style: none;
+    border-right-style: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+  }
+  &:focus{
+    border-radius: 0;
+    border-top-style: none;
+    border-left-style: none;
+    border-right-style: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+  }
+  &:active{
+    border-radius: 0;
+    border-top-style: none;
+    border-left-style: none;
+    border-right-style: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+  }
+}
+
