@@ -36,6 +36,8 @@ export default class DropdownWithInput extends Vue {
 
   @Prop()
   Items!: Array<string>
+  @Prop()
+  Action!: Function
   Filtered!: Array<string>
   constructor () {
     super()
@@ -51,9 +53,9 @@ export default class DropdownWithInput extends Vue {
 
   selectedItem () {
     if (this.selectedItemIndex === -1) {
-      console.log('selected ' + this.categoryName)
+      this.Action(this.categoryName)
     } else {
-      console.log('selected ' + this.Filtered[this.selectedItemIndex])
+      this.Action(this.Filtered[this.selectedItemIndex])
     }
   }
 

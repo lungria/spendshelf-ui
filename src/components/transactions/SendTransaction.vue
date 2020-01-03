@@ -1,16 +1,18 @@
 <template>
   <td>
-    <DropdownWithInput v-bind:Items="this.Categories"/>
+    <DropdownWithInput v-bind:Items="this.Categories" v-bind:Action="this.removeTransaction" />
   </td>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import DropdownWithInput from '@/components/inputs/DropdownWithInput.vue'
+import { Mutation } from 'vuex-class'
 @Component({
   components: { DropdownWithInput }
 })
 export default class SendTransaction extends Vue {
+  @Mutation removeTransaction: any
   Categories: Array<string> = []
   constructor () {
     super()

@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { Component, Inject, Prop, Vue } from 'vue-property-decorator'
-import TransactionData from '@/models/TransactionData'
+import TransactionData from '@/modules/transactions/TransactionData'
 import SendTransaction from '@/components/transactions/SendTransaction.vue'
 @Component({
   components: { SendTransaction }
