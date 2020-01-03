@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 import _, { Cancelable } from 'lodash'
 import FuzzySet from 'fuzzyset.js'
 
@@ -36,8 +36,10 @@ export default class DropdownWithInput extends Vue {
 
   @Prop()
   Items!: Array<string>
-  @Prop()
-  Action!: Function
+  @Emit()
+  onSelected (selectedName: string) {
+    return selectedName
+  }
   Filtered!: Array<string>
   constructor () {
     super()
@@ -53,9 +55,9 @@ export default class DropdownWithInput extends Vue {
 
   selectedItem () {
     if (this.selectedItemIndex === -1) {
-      this.Action(this.categoryName)
+      this.onSelected(this.categoryName)
     } else {
-      this.Action(this.Filtered[this.selectedItemIndex])
+      this.onSelected(this.Filtered[this.selectedItemIndex])
     }
   }
 
@@ -73,7 +75,7 @@ export default class DropdownWithInput extends Vue {
       this.allowToTravelByArrow = true
     } else {
       this.allowToTravelByArrow = false
-      this.Filtered = ['Press Enter to save new category'] // TODO: forbit to traverse by arrows
+      this.Filtered = ['Press Enter to create new'] // TODO: forbit to traverse by arrows
     }
   }
 

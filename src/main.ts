@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import App from './App.vue'
 import Vuex, { StoreOptions } from 'vuex'
-import { TransactionsState } from './modules/TransactionsState'
+import { TransactionsState } from './modules/transactions/TransactionsState'
 import TransactionData from '@/modules/transactions/TransactionData'
-import { mutations } from '@/modules/Mutations'
+import { mutations } from '@/modules/transactions/Mutations'
+import { actions } from '@/modules/transactions/Actions'
 
 Vue.config.productionTip = false
 
@@ -19,7 +20,8 @@ const store: StoreOptions<TransactionsState> = {
       new TransactionData(102, 'asd', 'obq3', new Date(2019, 2, 2, 1, 12))
     ].sort((x, y) => y.DateTime.getTime() - x.DateTime.getTime())
   },
-  mutations: mutations
+  mutations: mutations,
+  actions: actions
 }
 
 new Vue({

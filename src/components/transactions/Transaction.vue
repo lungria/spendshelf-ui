@@ -4,22 +4,40 @@
     <td class="transaction-description">{{this.Data.Description}}</td>
     <td>₴{{this.FormattedAmount}}</td>
     <td>{{this.Data.DateTime.toLocaleDateString()}}</td>
-    <SendTransaction v-bind:transaction-id="this.Data.ID"/>
+    <td>
+      <DropdownWithInput v-bind:Items="this.Categories" v-on:on-selected="this.removeTransactionEvent" />
+    </td>
   </tr>
 </template>
 
 <script lang="ts">
 import { Component, Inject, Prop, Vue } from 'vue-property-decorator'
 import TransactionData from '@/modules/transactions/TransactionData'
-import SendTransaction from '@/components/transactions/SendTransaction.vue'
+import DropdownWithInput from '@/components/inputs/DropdownWithInput.vue'
+import { Action } from 'vuex-class'
+import { SendTransactionActionPayload } from '@/modules/transactions/Actions'
 @Component({
-  components: { SendTransaction }
+  components: { DropdownWithInput }
 })
 export default class Transaction extends Vue {
   @Inject() readonly formatter!: Intl.NumberFormat
 
   @Prop()
-  Data?: TransactionData
+  Data!: TransactionData
+
+  removeTransactionEvent (category: string) {
+    this.sendTransaction(new SendTransactionActionPayload(this.Data.ID, category))
+  }
+
+  @Action sendTransaction: any
+  Categories: Array<string> = []
+  constructor () {
+    super()
+    this.Categories.push('Home')
+    this.Categories.push('Car')
+    this.Categories.push('Dream')
+    this.Categories.push('Food')
+  }
 
   get FormattedAmount () {
     if (this.Data) {
@@ -33,5 +51,6 @@ export default class Transaction extends Vue {
 <style scoped>
   .transaction-description {
     min-width: 30%;
+    max-width: 30%; /* TODO: fix */
   }
 </style>

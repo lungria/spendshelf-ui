@@ -1,6 +1,5 @@
 import { MutationTree } from 'vuex'
 import { TransactionsState } from './TransactionsState'
-import TransactionData, { TransactionId } from '@/modules/transactions/TransactionData'
 
 export const mutations: MutationTree<TransactionsState> = {
   removeTransaction (state, payload: any) {
