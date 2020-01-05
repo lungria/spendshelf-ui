@@ -20,10 +20,11 @@ const store: StoreOptions<TransactionsState> = {
       new TransactionData(101, 'fasfasf', 'on4', new Date(2019, 3, 2, 1, 12)),
       new TransactionData(102, 'asd', 'obq3', new Date(2019, 2, 2, 1, 12))
     ].sort((x, y) => y.DateTime.getTime() - x.DateTime.getTime()),
-    Categories: [
-      new Category('test1', 'id1'),
-      new Category('test2', 'id2')
-    ]
+    Categories: new Map<string, Category>([
+      ['id1', new Category('test1', 'id1')],
+      ['id2', new Category('test2', 'id2')],
+      ['id3', new Category('test3', 'id3')]
+    ])
   },
   mutations: mutations,
   actions: actions

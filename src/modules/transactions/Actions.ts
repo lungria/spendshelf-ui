@@ -13,7 +13,7 @@ export const actions: ActionTree<TransactionsState, TransactionsState> = {
 
   async sendTransactionWithNewCategory ({ commit }, payload: SendTransactionActionPayload) {
     let category = await ApiClient.CreateCategory(payload.CategoryName)
-    // todo add category
+    commit(mutations.createCategory.name, category)
     await ApiClient.SendTransaction(new SendTransactionRequest(payload.TransactionId, category.Id))
     commit(mutations.removeTransaction.name, payload.TransactionId)
   }

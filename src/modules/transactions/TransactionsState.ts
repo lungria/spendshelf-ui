@@ -3,5 +3,5 @@ import Category from '@/api/Category'
 
 export interface TransactionsState {
     Transactions: TransactionData[];
-    Categories: Category[];
+    Categories: Map<string, Category>;
 }

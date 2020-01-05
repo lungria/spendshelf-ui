@@ -21,6 +21,7 @@ import _, { Cancelable } from 'lodash'
 import FuzzySet from 'fuzzyset.js'
 import { State } from 'vuex-class'
 import DropdownElement from '@/components/inputs/DropdownElement'
+import Category from '@/api/Category'
 
 @Component
 export default class DropdownWithInput extends Vue {
@@ -36,7 +37,7 @@ export default class DropdownWithInput extends Vue {
   debouncer: (() => void) & Cancelable
 
   @State('Categories')
-  Items!: Array<DropdownElement>
+  Items!: Map<string, Category>
 
   @Emit()
   onSelected (id: string) {
@@ -59,8 +60,13 @@ export default class DropdownWithInput extends Vue {
   }
 
   getIdByName (name: string) : string | null { // todo: fix https://github.com/Glench/fuzzyset.js/issues/7
-    let elem = this.Items.find(x => x.Name === name)
-    return elem ? elem.Id : null
+    let id: string | null = null
+    this.Items.forEach((value: Category) => {
+      if (value.Name === name) {
+        id = value.Id
+      }
+    })
+    return id
   }
 
   selectedItem () {
@@ -138,7 +144,7 @@ export default class DropdownWithInput extends Vue {
   }
 
   get fuzzy () {
-    return FuzzySet(this.Items.map(x => x.Name))
+    return FuzzySet(Array.from(this.Items, ([_, value]) => value.Name))
   }
 
   get sorted () {
