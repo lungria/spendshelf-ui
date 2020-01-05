@@ -1,11 +1,11 @@
 <template>
-    <div class="dropdown" v-bind:class="{ 'is-active': clickedOnInput || enteringData || ( mouseOverInput && inputValue.length > 1 ) || mouseOverList }">
+    <div class="dropdown" v-bind:class="{ 'is-active': isActived}">
       <div class="dropdown-trigger">
         <div aria-haspopup="true" aria-controls="dropdown-menu">
           <input v-on:keyup.enter="selectedItem" v-on:keydown.down="IncSelectedItemIndex" v-on:keyup.down="IncSelectedItemIndexStop" v-on:keydown.up="DecSelectedItemIndex" v-on:keyup.up="DecSelectedItemIndexStop" v-on:input.stop="InputLetter" v-on:click.stop="clickedOnInput = true" v-on:mouseleave.stop="mouseLeave" v-on:mouseenter.stop="mouseOverInput = true" v-model="inputValue" class="input is-small" type="text" placeholder="Text input">
         </div>
       </div>
-      <div v-on:mouseover.stop="mouseOverList = true" v-on:mouseleave.stop="mouseOverList = false" class="dropdown-menu" id="dropdown-menu" role="menu">
+      <div v-if="isActived" v-on:mouseover.stop="mouseOverList = true" v-on:mouseleave.stop="mouseOverList = false" class="dropdown-menu" id="dropdown-menu" role="menu">
         <div class="dropdown-content">
           <a class="dropdown-item" v-bind:class="{'is-active': k === SelectedItemData}" v-for="k in fuzzy.values()" v-bind:key="k">
             {{ k }}
@@ -133,6 +133,10 @@ export default class DropdownWithInput extends Vue {
 
   get sorted () {
     return this.fuzzy === null ? [] : this.fuzzy.values()
+  }
+
+  get isActived () {
+    return this.clickedOnInput || this.enteringData || (this.mouseOverInput && this.inputValue.length > 1) || this.mouseOverList
   }
 }
 </script>
