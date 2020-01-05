@@ -1,24 +1,15 @@
 # spendshelf-ui
 
-## Project setup
-```
-npm install
-```
+Spendshelf started as a desire to keep money spending in the family budget under control.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+All incoming transactions are being sent to categories - and each category has a monthly budget (spent money limit). At the end of the budget period (usually at the end of the months or near to salary date) - you either close to monthly budget per each category (which is good) - or not (which is bad). 
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Current status
 
-### Lints and fixes files
-```
-npm run lint
-```
+Project is being actively developed by @suddengunter and @markelrep. At the moment only monobank webhooks are supported as incoming source, and web UI only has one page - we keep it simple and add only things we need.
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Contributors guide
+
+All contributions are welcomed through pull requests
+
+
