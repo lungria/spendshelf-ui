@@ -2,11 +2,11 @@
   <table class="table is-striped is-fullwidth" id="app">
     <thead>
     <tr class="is-size-6 is-size-7-mobile">
-      <td>Id</td>
-      <td>Description</td>
-      <td>Amount</td>
-      <td>Date</td>
-      <td/>
+      <td id="id-col">Id</td>
+      <td id="description-col">Description</td>
+      <td id="amount-col">Amount</td>
+      <td id="date-col">Date</td>
+      <td id="dropdown-col"/>
     </tr>
     </thead>
     <tbody>
@@ -32,4 +32,19 @@ export default class TransactionList extends Vue {
 </script>
 
 <style lang="scss">
+  #description-col {
+    width: 35%;
+  }
+  #id-col {
+    width: 20%;
+  }
+  #amount-col {
+    width: 10%;
+  }
+  #date-col {
+    width: 13%;
+  }
+  #dropdown-col {
+    width: 22%;
+  }
 </style>
