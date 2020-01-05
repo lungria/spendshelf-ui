@@ -5,7 +5,7 @@
     <td>₴{{this.FormattedAmount}}</td>
     <td>{{this.Data.DateTime.toLocaleDateString()}}</td>
     <td>
-      <DropdownWithInput v-bind:Items="this.Categories" v-on:on-selected="this.removeTransactionEvent" />
+      <DropdownWithInput v-on:on-selected="this.removeTransactionEvent" />
     </td>
   </tr>
 </template>
@@ -14,8 +14,9 @@
 import { Component, Inject, Prop, Vue } from 'vue-property-decorator'
 import TransactionData from '@/modules/transactions/TransactionData'
 import DropdownWithInput from '@/components/inputs/DropdownWithInput.vue'
-import { Action } from 'vuex-class'
+import { Action, State } from 'vuex-class'
 import { SendTransactionActionPayload } from '@/modules/transactions/Actions'
+import Category from '@/api/Category'
 @Component({
   components: { DropdownWithInput }
 })
@@ -25,18 +26,11 @@ export default class Transaction extends Vue {
   @Prop()
   Data!: TransactionData
 
+  @Action
+  sendTransaction: any
+
   removeTransactionEvent (category: string) {
     this.sendTransaction(new SendTransactionActionPayload(this.Data.ID, category))
-  }
-
-  @Action sendTransaction: any
-  Categories: Array<string> = []
-  constructor () {
-    super()
-    this.Categories.push('Home')
-    this.Categories.push('Car')
-    this.Categories.push('Dream')
-    this.Categories.push('Food')
   }
 
   get FormattedAmount () {

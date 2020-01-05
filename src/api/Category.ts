@@ -1,8 +1,10 @@
-export default class Category {
-  name?: string
-  id?: string
+import DropdownElement from '@/components/inputs/DropdownElement'
+
+export default class Category implements DropdownElement {
+  Name!: string
+  Id!: string
   constructor (name: string, id: string) {
-    this.name = name
-    this.id = id
+    this.Name = name
+    this.Id = id
   }
 }

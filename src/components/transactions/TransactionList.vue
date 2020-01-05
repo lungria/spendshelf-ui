@@ -27,7 +27,7 @@ import { TransactionsState } from '@/modules/transactions/TransactionsState'
   })
 export default class TransactionList extends Vue {
     @State
-    Transactions?: TransactionData[]
+    Transactions!: TransactionData[]
 }
 </script>
 

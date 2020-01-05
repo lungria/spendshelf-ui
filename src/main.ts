@@ -5,6 +5,7 @@ import { TransactionsState } from './modules/transactions/TransactionsState'
 import TransactionData from '@/modules/transactions/TransactionData'
 import { mutations } from '@/modules/transactions/Mutations'
 import { actions } from '@/modules/transactions/Actions'
+import Category from '@/api/Category'
 
 Vue.config.productionTip = false
 
@@ -18,7 +19,11 @@ const store: StoreOptions<TransactionsState> = {
       new TransactionData(102, 'asd', 'ob3', new Date(2019, 4, 2, 1, 12)),
       new TransactionData(101, 'fasfasf', 'on4', new Date(2019, 3, 2, 1, 12)),
       new TransactionData(102, 'asd', 'obq3', new Date(2019, 2, 2, 1, 12))
-    ].sort((x, y) => y.DateTime.getTime() - x.DateTime.getTime())
+    ].sort((x, y) => y.DateTime.getTime() - x.DateTime.getTime()),
+    Categories: [
+      new Category('test1', 'id1'),
+      new Category('test2', 'id2')
+    ]
   },
   mutations: mutations,
   actions: actions
