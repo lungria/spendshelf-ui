@@ -1,13 +1,13 @@
 <template>
-    <div class="dropdown" v-bind:class="{ 'is-active': clickedOnInput || enteringData || ( mouseOverInput && categoryName.length > 1 ) || mouseOverList }">
+    <div class="dropdown" v-bind:class="{ 'is-active': isActived}">
       <div class="dropdown-trigger">
         <div aria-haspopup="true" aria-controls="dropdown-menu">
-          <input v-on:keyup.enter="selectedItem" v-on:keydown.down="IncSelectedItemIndex"  v-on:keyup.down="IncSelectedItemIndexStop" v-on:keydown.up="DecSelectedItemIndex"  v-on:keyup.up="DecSelectedItemIndexStop" v-on:input.stop="InputLetter" v-on:click.stop="clickedOnInput = true" v-on:mouseleave.stop="mouseLeave" v-on:mouseenter.stop="mouseOverInput = true" v-model="categoryName" class="input is-small" type="text" placeholder="Text input">
+          <input v-on:keyup.enter="selectedItem" v-on:keydown.down="IncSelectedItemIndex" v-on:keyup.down="IncSelectedItemIndexStop" v-on:keydown.up="DecSelectedItemIndex" v-on:keyup.up="DecSelectedItemIndexStop" v-on:input.stop="InputLetter" v-on:click.stop="clickedOnInput = true" v-on:mouseleave.stop="mouseLeave" v-on:mouseenter.stop="mouseOverInput = true" v-model="inputValue" class="input is-small" type="text" placeholder="Text input">
         </div>
       </div>
-      <div v-on:mouseover.stop="mouseOverList = true" v-on:mouseleave.stop="mouseOverList = false" class="dropdown-menu" id="dropdown-menu" role="menu">
+      <div v-if="isActived" v-on:mouseover.stop="mouseOverList = true" v-on:mouseleave.stop="mouseOverList = false" class="dropdown-menu" id="dropdown-menu" role="menu">
         <div class="dropdown-content">
-          <a class="dropdown-item" v-bind:class="{'is-active': k === SelectedItemData}" v-for="k in Filtered" v-bind:key="k">
+          <a class="dropdown-item" v-bind:class="{'is-active': k === SelectedItemData}" v-for="k in fuzzy.values()" v-bind:key="k" v-on:click.stop="selectItemByMouse(k)">
             {{ k }}
           </a>
         </div>
@@ -16,9 +16,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Emit, Vue } from 'vue-property-decorator'
 import _, { Cancelable } from 'lodash'
 import FuzzySet from 'fuzzyset.js'
+import { State } from 'vuex-class'
+import DropdownElement from '@/components/inputs/DropdownElement'
+import Category from '@/api/Category'
 
 @Component
 export default class DropdownWithInput extends Vue {
@@ -30,18 +33,25 @@ export default class DropdownWithInput extends Vue {
   selectedItemIndex: number = -1
   IncSelectedItemIndexRid: any
   DecSelectedItemIndexRid: any
-  categoryName: string = ''
-  fuzzy!: FuzzySet
+  inputValue: string = ''
   debouncer: (() => void) & Cancelable
 
-  @Prop()
-  Items!: Array<string>
-  Filtered!: Array<string>
+  @State('Categories')
+  Items!: Map<string, Category>
+
+  @Emit()
+  onSelected (id: string) {
+    return id
+  }
+
+  @Emit()
+  onAddedNew (name: string) {
+    return name
+  }
+
   constructor () {
     super()
     this.debouncer = _.debounce(this.Hide, 100)
-    this.Filtered = this.Items
-    this.fuzzy = FuzzySet(this.Items)
   }
 
   InputLetter () {
@@ -49,29 +59,40 @@ export default class DropdownWithInput extends Vue {
     this.debouncer()
   }
 
+  getIdByName (name: string) : string | null { // todo: fix https://github.com/Glench/fuzzyset.js/issues/7
+    let id: string | null = null
+    this.Items.forEach((value: Category) => {
+      if (value.Name === name) {
+        id = value.Id
+      }
+    })
+    return id
+  }
+
   selectedItem () {
     if (this.selectedItemIndex === -1) {
-      console.log('selected ' + this.categoryName)
+      this.onAddedNew(this.inputValue)
     } else {
-      console.log('selected ' + this.Filtered[this.selectedItemIndex])
+      this.onSelected(this.getIdByName(this.sorted[this.selectedItemIndex])!)
     }
+  }
+
+  selectItemByMouse (name: string) {
+    this.onSelected(this.getIdByName(name)!)
   }
 
   Hide () {
     this.enteringData = false
     this.selectedItemIndex = -1
-    if (!this.categoryName) {
-      this.Filtered = this.Items
+    if (!this.inputValue) {
       this.allowToTravelByArrow = true
       return
     }
-    let fuzzed = this.fuzzy.get(this.categoryName)
+    let fuzzed = this.fuzzy!.get(this.inputValue)
     if (fuzzed) {
-      this.Filtered = fuzzed.map((value: [number, string]) => value[1])
       this.allowToTravelByArrow = true
     } else {
       this.allowToTravelByArrow = false
-      this.Filtered = ['Press Enter to save new category'] // TODO: forbit to traverse by arrows
     }
   }
 
@@ -86,7 +107,7 @@ export default class DropdownWithInput extends Vue {
       return
     }
     this.IncSelectedItemIndexRid = window.requestAnimationFrame(() => {
-      if (this.selectedItemIndex < this.Filtered.length - 1) {
+      if (this.selectedItemIndex < this.sorted.length - 1) {
         this.selectedItemIndex++
       } else {
         window.cancelAnimationFrame(this.IncSelectedItemIndexRid)
@@ -117,9 +138,21 @@ export default class DropdownWithInput extends Vue {
 
   get SelectedItemData () {
     if (this.selectedItemIndex > -1) {
-      return this.Filtered[this.selectedItemIndex]
+      return this.sorted[this.selectedItemIndex]
     }
     return ''
+  }
+
+  get fuzzy () {
+    return FuzzySet(Array.from(this.Items, ([_, value]) => value.Name))
+  }
+
+  get sorted () {
+    return this.fuzzy === null ? [] : this.fuzzy.values()
+  }
+  // TODO: get activated once
+  get isActived () {
+    return this.clickedOnInput || this.enteringData || (this.mouseOverInput && this.inputValue.length > 1) || this.mouseOverList
   }
 }
 </script>

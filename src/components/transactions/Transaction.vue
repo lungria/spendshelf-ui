@@ -1,25 +1,46 @@
 <template>
   <tr id="transaction" class="table is-size-6-desktop is-size-7-mobile">
     <td>{{this.Data.ID}}</td>
-    <td class="transaction-description">{{this.Data.Description}}</td>
+    <td>{{this.Data.Description}}</td>
     <td>₴{{this.FormattedAmount}}</td>
     <td>{{this.Data.DateTime.toLocaleDateString()}}</td>
-    <SendTransaction v-bind:transaction-id="this.Data.ID"/>
+    <td>
+      <DropdownWithInput v-on:on-selected="this.onCategorySelected" v-on:on-added-new="this.onCategoryCreated"/>
+    </td>
   </tr>
 </template>
 
 <script lang="ts">
 import { Component, Inject, Prop, Vue } from 'vue-property-decorator'
-import TransactionData from '@/models/TransactionData'
-import SendTransaction from '@/components/transactions/SendTransaction.vue'
+import TransactionData from '@/modules/transactions/TransactionData'
+import DropdownWithInput from '@/components/inputs/DropdownWithInput.vue'
+import { Action, State } from 'vuex-class'
+import {
+  SendTransactionActionPayload,
+  SendTransactionWithExistingCategoryActionPayload
+} from '@/modules/transactions/Actions'
+import Category from '@/api/Category'
 @Component({
-  components: { SendTransaction }
+  components: { DropdownWithInput }
 })
 export default class Transaction extends Vue {
   @Inject() readonly formatter!: Intl.NumberFormat
 
   @Prop()
-  Data?: TransactionData
+  Data!: TransactionData
+
+  @Action
+  sendTransaction: any
+  @Action
+  sendTransactionWithNewCategory: any
+
+  onCategorySelected (id: string) {
+    this.sendTransaction(new SendTransactionWithExistingCategoryActionPayload(this.Data.ID, id))
+  }
+
+  onCategoryCreated (category: string) {
+    this.sendTransactionWithNewCategory(new SendTransactionActionPayload(this.Data.ID, category))
+  }
 
   get FormattedAmount () {
     if (this.Data) {
@@ -31,7 +52,4 @@ export default class Transaction extends Vue {
 </script>
 
 <style scoped>
-  .transaction-description {
-    min-width: 30%;
-  }
 </style>
