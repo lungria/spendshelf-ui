@@ -7,7 +7,7 @@
       </div>
       <div v-if="isActived" v-on:mouseover.stop="mouseOverList = true" v-on:mouseleave.stop="mouseOverList = false" class="dropdown-menu" id="dropdown-menu" role="menu">
         <div class="dropdown-content">
-          <a class="dropdown-item" v-bind:class="{'is-active': k === SelectedItemData}" v-for="k in fuzzy.values()" v-bind:key="k">
+          <a class="dropdown-item" v-bind:class="{'is-active': k === SelectedItemData}" v-for="k in fuzzy.values()" v-bind:key="k" v-on:click.stop="selectItemByMouse(k)">
             {{ k }}
           </a>
         </div>
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
+import { Component, Emit, Vue } from 'vue-property-decorator'
 import _, { Cancelable } from 'lodash'
 import FuzzySet from 'fuzzyset.js'
 import { State } from 'vuex-class'
@@ -39,9 +39,15 @@ export default class DropdownWithInput extends Vue {
   Items!: Array<DropdownElement>
 
   @Emit()
-  onSelected (selectedName: string) {
-    return selectedName
+  onSelected (id: string) {
+    return id
   }
+
+  @Emit()
+  onAddedNew (name: string) {
+    return name
+  }
+
   constructor () {
     super()
     this.debouncer = _.debounce(this.Hide, 100)
@@ -52,17 +58,21 @@ export default class DropdownWithInput extends Vue {
     this.debouncer()
   }
 
-  getIdByName (name: string) { // todo: fix https://github.com/Glench/fuzzyset.js/issues/7
+  getIdByName (name: string) : string | null { // todo: fix https://github.com/Glench/fuzzyset.js/issues/7
     let elem = this.Items.find(x => x.Name === name)
-    return elem ? elem.Id : ''
+    return elem ? elem.Id : null
   }
 
   selectedItem () {
     if (this.selectedItemIndex === -1) {
-      this.onSelected(this.getIdByName(this.inputValue))
+      this.onAddedNew(this.inputValue)
     } else {
-      this.onSelected(this.getIdByName(this.sorted[this.selectedItemIndex]))
+      this.onSelected(this.getIdByName(this.sorted[this.selectedItemIndex])!)
     }
+  }
+
+  selectItemByMouse (name: string) {
+    this.onSelected(this.getIdByName(name)!)
   }
 
   Hide () {
@@ -134,7 +144,7 @@ export default class DropdownWithInput extends Vue {
   get sorted () {
     return this.fuzzy === null ? [] : this.fuzzy.values()
   }
-
+  // TODO: get activated once
   get isActived () {
     return this.clickedOnInput || this.enteringData || (this.mouseOverInput && this.inputValue.length > 1) || this.mouseOverList
   }

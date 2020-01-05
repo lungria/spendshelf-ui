@@ -1,14 +1,16 @@
 import CategoriesResponse from '@/api/CategoriesResponse'
-import TransactionData, {TransactionId} from '@/modules/transactions/TransactionData'
+import TransactionData, { TransactionId } from '@/modules/transactions/TransactionData'
 import Category from '@/api/Category'
+import SendTransactionRequest from '@/api/SendTransactionRequest'
 
 interface ApiClient {
   GetCategories(): Promise<CategoriesResponse>;
-  SendTransaction(t: TransactionId, c: string): Promise<void>;
+  CreateCategory(name: string): Promise<Category>;
+  SendTransaction(request: SendTransactionRequest): Promise<void>;
 }
 
 class SpendShelfApiClient implements ApiClient {
-  public GetCategories (): Promise<CategoriesResponse> {
+  async GetCategories (): Promise<CategoriesResponse> {
     return new Promise<CategoriesResponse>((resolve) => {
       resolve(new CategoriesResponse([
         new Category('test1', 'id1'),
@@ -17,11 +19,16 @@ class SpendShelfApiClient implements ApiClient {
     })
   }
 
-  async SendTransaction (t: TransactionId, c: string): Promise<void> {
+  async SendTransaction (request: SendTransactionRequest): Promise<void> {
     return new Promise((resolve) => {
-      console.log(t)
-      console.log(c)
+      console.log(request)
       resolve()
+    })
+  }
+
+  async CreateCategory (name: string): Promise<Category> {
+    return new Promise<Category>((resolve) => {
+      resolve(new Category(name, 'generatgedId'))
     })
   }
 }
