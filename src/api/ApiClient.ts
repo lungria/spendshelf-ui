@@ -33,7 +33,7 @@ if (process.env.USE_MOCK === 'true') {
 
     async CreateCategory (name: string): Promise<Category> {
       return new Promise<Category>((resolve) => {
-        resolve(new Category(name, 'generatgedId'))
+        resolve(new Category(name, Math.random().toString(36)))
       })
     }
   }
@@ -55,7 +55,7 @@ if (process.env.USE_MOCK === 'true') {
 
     async CreateCategory (name: string): Promise<Category> {
       return new Promise<Category>((resolve) => {
-        resolve(new Category(name, 'generatgedId'))
+        resolve(new Category(name, Math.random().toString(36)))
       })
     }
   }
