@@ -54,9 +54,14 @@ if (process.env.USE_MOCK === 'true') {
     }
 
     async CreateCategory (name: string): Promise<Category> {
-      return new Promise<Category>((resolve) => {
-        resolve(new Category(name, Math.random().toString(36)))
+      let req = new Request(serverUrl + '/categories', {
+        method: 'post',
+        body: JSON.stringify({ name: name })
       })
+      let response = await fetch(req)
+      let obj = await response.json()
+      obj.name = name
+      return obj
     }
   }
   api = new SpendshelfApiClient()
