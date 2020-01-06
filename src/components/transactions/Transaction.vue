@@ -14,12 +14,9 @@
 import { Component, Inject, Prop, Vue } from 'vue-property-decorator'
 import TransactionData from '@/modules/transactions/TransactionData'
 import DropdownWithInput from '@/components/inputs/DropdownWithInput.vue'
-import { Action, State } from 'vuex-class'
-import {
-  SendTransactionActionPayload,
-  SendTransactionWithExistingCategoryActionPayload
-} from '@/modules/transactions/Actions'
-import Category from '@/api/Category'
+import { Action } from 'vuex-class'
+import { SendTransactionActionPayload, SendTransactionWithExistingCategoryActionPayload } from '@/modules/transactions/Actions'
+
 @Component({
   components: { DropdownWithInput }
 })

@@ -9,6 +9,6 @@ export const mutations: MutationTree<TransactionsState> = {
     state.Transactions.splice(index, 1)
   },
   createCategory (state, payload: Category) {
-    state.Categories.set(payload.Id, payload)
+    state.Categories.set(payload.id, payload)
   }
 }

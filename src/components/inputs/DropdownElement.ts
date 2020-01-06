@@ -1,4 +1,4 @@
 export default interface DropdownElement {
-  Name: string
-  Id: string
+  name: string
+  id: string
 }
