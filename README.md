@@ -15,3 +15,6 @@ Project is being actively developed by @suddengunter and @markelrep. At the mome
 All contributions are welcomed through pull requests
 
 
+## Backend
+
+see backend at https://github.com/lungria/spendshelf-backend/
