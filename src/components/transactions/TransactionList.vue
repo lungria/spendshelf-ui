@@ -20,7 +20,6 @@ import { Component, Vue } from 'vue-property-decorator'
 import TransactionData from '@/modules/transactions/TransactionData'
 import Transaction from '@/components/transactions/Transaction.vue'
 import { State } from 'vuex-class'
-import { TransactionsState } from '@/modules/transactions/TransactionsState'
 
   @Component({
     components: { Transaction }
