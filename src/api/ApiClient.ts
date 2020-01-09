@@ -7,7 +7,7 @@ import TransactionData from '@/modules/transactions/TransactionData'
 const serverUrl: string = 'http://localhost:80'
 
 interface ApiClient {
-  GetCategories(): Promise<CategoriesResponse>;
+  GetCategories(): Promise<Map<string, Category>>;
 
   GetTransactions(): Promise<TransactionData[]>
 
@@ -47,9 +47,10 @@ let api: ApiClient
   api = new MockApiClient()
 } else { */
 class SpendshelfApiClient implements ApiClient {
-  async GetCategories (): Promise<CategoriesResponse> {
+  async GetCategories (): Promise<Map<string, Category>> {
     let response = await fetch(serverUrl + '/categories')
-    return response.json()
+    let json : CategoriesResponse = await response.json()
+    return new Map<string, Category>(json.categories.map(z => [z.id, z]))
   }
 
   async SendTransaction (request: SendTransactionRequest): Promise<void> {

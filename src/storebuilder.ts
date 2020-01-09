@@ -23,6 +23,5 @@ export function buildStore (categories : Map<string, Category>, transactions: Tr
 
 export async function initAppState (): Promise<Store<TransactionsState>> {
   let responses = await Promise.all([ApiClient.GetCategories(), ApiClient.GetTransactions()])
-  let mapCtg = new Map<string, Category>(responses[0].categories.map(z => [z.id, z]))
-  return buildStore(mapCtg, responses[1])
+  return buildStore(responses[0], responses[1])
 }
