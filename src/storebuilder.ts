@@ -13,7 +13,7 @@ export function buildStore (categories : Map<string, Category>, transactions: Tr
   return new Vuex.Store<TransactionsState>({
     strict: true, // TODO disable in production
     state: {
-      Transactions: transactions.sort((x, y) => y.dateTime.getTime() - x.dateTime.getTime()),
+      Transactions: transactions == null ? [] : transactions.sort((x, y) => y.dateTime.getTime() - x.dateTime.getTime()),
       Categories: categories
     },
     mutations: mutations,

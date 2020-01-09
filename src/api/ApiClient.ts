@@ -50,14 +50,20 @@ class SpendshelfApiClient implements ApiClient {
   async GetCategories (): Promise<Map<string, Category>> {
     let response = await fetch(serverUrl + '/categories')
     let json : CategoriesResponse = await response.json()
+    if (json == null || json.categories === null) {
+      return new Map<string, Category>()
+    }
     return new Map<string, Category>(json.categories.map(z => [z.id, z]))
   }
 
   async SendTransaction (request: SendTransactionRequest): Promise<void> {
-    return new Promise((resolve) => {
-      console.log(request)
-      resolve()
+    console.log(request)
+    let req = new Request(serverUrl + '/transactions/' + request.TransactionId, {
+      method: 'PATCH',
+      body: JSON.stringify({ category_id: request.CategoryId })
     })
+    let res = await fetch(req)
+    console.log(res)
   }
 
   async CreateCategory (name: string): Promise<Category> {
@@ -75,6 +81,9 @@ class SpendshelfApiClient implements ApiClient {
     let response = await fetch(serverUrl + '/transactions?category=without')
     let json : TransactionsResponse = await response.json()
     console.log(json)
+    if (json === null || json.transactions === null) {
+      return []
+    }
     return json.transactions.map(x => Object.assign({}, x, { dateTime: new Date(x.dateTime) }))
   }
 }
