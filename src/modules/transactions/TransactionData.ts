@@ -1,15 +1,13 @@
 export default class TransactionData {
-  Amount: number;
-  Description: string;
-  ID: TransactionId;
-  DateTime: Date;
+  amount: number;
+  description: string;
+  id: string;
+  dateTime: Date;
 
-  constructor (Amount: number, Description: string, ID: TransactionId, DateTime: Date) {
-    this.ID = ID
-    this.Amount = Amount
-    this.Description = Description
-    this.DateTime = DateTime
+  constructor (amount: number, description: string, id: string, dateTime: Date) {
+    this.id = id
+    this.amount = amount
+    this.description = description
+    this.dateTime = dateTime
   }
 }
-
-export type TransactionId = string;

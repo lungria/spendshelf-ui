@@ -9,16 +9,11 @@ import ApiClient from '@/api/ApiClient'
 
 Vue.use(Vuex)
 
-export function buildStore (categories : Map<string, Category>) {
+export function buildStore (categories : Map<string, Category>, transactions: TransactionData[]) {
   return new Vuex.Store<TransactionsState>({
     strict: true, // TODO disable in production
     state: {
-      Transactions: [
-        new TransactionData(100, 'ATB', '5e124d89a1583b0db666adc4', new Date(2019, 12, 2, 1, 12)),
-        new TransactionData(102, 'Silpo', '5e124d89a1583b0db666adc5', new Date(2019, 4, 2, 1, 12)),
-        new TransactionData(101, 'Le Silpo', '5e124d89a1583b0db666adc6', new Date(2019, 3, 2, 1, 12)),
-        new TransactionData(102, 'Каша Маслом', '5e124d89a1583b0db666adc7', new Date(2019, 2, 2, 1, 12))
-      ].sort((x, y) => y.DateTime.getTime() - x.DateTime.getTime()),
+      Transactions: transactions == null ? [] : transactions.sort((x, y) => y.dateTime.getTime() - x.dateTime.getTime()),
       Categories: categories
     },
     mutations: mutations,
@@ -27,7 +22,6 @@ export function buildStore (categories : Map<string, Category>) {
 }
 
 export async function initAppState (): Promise<Store<TransactionsState>> {
-  let ctgs = await ApiClient.GetCategories()
-  let mapCtg = new Map<string, Category>(ctgs.categories.map(z => [z.id, z]))
-  return buildStore(mapCtg)
+  let responses = await Promise.all([ApiClient.GetCategories(), ApiClient.GetTransactions()])
+  return buildStore(responses[0], responses[1])
 }
