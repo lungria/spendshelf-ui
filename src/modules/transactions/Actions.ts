@@ -1,7 +1,6 @@
 import { ActionTree } from 'vuex'
 import { TransactionsState } from '@/modules/transactions/TransactionsState'
 import ApiClient from '@/api/ApiClient'
-import { TransactionId } from '@/modules/transactions/TransactionData'
 import { mutations } from '@/modules/transactions/Mutations'
 import SendTransactionRequest from '@/api/SendTransactionRequest'
 
@@ -20,7 +19,7 @@ export const actions: ActionTree<TransactionsState, TransactionsState> = {
 }
 
 export class SendTransactionActionPayload {
-  TransactionId: TransactionId
+  TransactionId: string
   CategoryName: string
   constructor (TransactionId: string, CategoryName: string) {
     this.TransactionId = TransactionId
@@ -29,7 +28,7 @@ export class SendTransactionActionPayload {
 }
 
 export class SendTransactionWithExistingCategoryActionPayload {
-  TransactionId: TransactionId
+  TransactionId: string
   CategoryId: string
   constructor (TransactionId: string, CategoryId: string) {
     this.TransactionId = TransactionId

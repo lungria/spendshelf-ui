@@ -1,9 +1,9 @@
 <template>
   <tr id="transaction" class="table is-size-6-desktop is-size-7-mobile">
-    <td>{{this.Data.ID}}</td>
-    <td>{{this.Data.Description}}</td>
+    <td>{{this.Data.id}}</td>
+    <td>{{this.Data.description}}</td>
     <td>₴{{this.FormattedAmount}}</td>
-    <td>{{this.Data.DateTime.toLocaleDateString()}}</td>
+    <td>{{this.Data.dateTime.toLocaleDateString()}}</td>
     <td>
       <DropdownWithInput v-on:on-selected="this.onCategorySelected" v-on:on-added-new="this.onCategoryCreated"/>
     </td>
@@ -32,16 +32,16 @@ export default class Transaction extends Vue {
   sendTransactionWithNewCategory: any
 
   onCategorySelected (id: string) {
-    this.sendTransaction(new SendTransactionWithExistingCategoryActionPayload(this.Data.ID, id))
+    this.sendTransaction(new SendTransactionWithExistingCategoryActionPayload(this.Data.id, id))
   }
 
   onCategoryCreated (category: string) {
-    this.sendTransactionWithNewCategory(new SendTransactionActionPayload(this.Data.ID, category))
+    this.sendTransactionWithNewCategory(new SendTransactionActionPayload(this.Data.id, category))
   }
 
   get FormattedAmount () {
     if (this.Data) {
-      return this.formatter.format(this.Data.Amount)
+      return this.formatter.format(this.Data.amount)
     } else return '0.00'
   }
 }
