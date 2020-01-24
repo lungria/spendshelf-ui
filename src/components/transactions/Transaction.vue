@@ -5,7 +5,7 @@
     <td>₴{{this.FormattedAmount}}</td>
     <td>{{this.Data.dateTime.toLocaleDateString()}}</td>
     <td>
-      <DropdownWithInput v-on:on-selected="this.onCategorySelected" v-on:on-added-new="this.onCategoryCreated"/>
+      <DropdownV2 v-on:on-selected="this.onCategorySelected" v-on:on-added-new="this.onCategoryCreated"/>
     </td>
   </tr>
 </template>
@@ -13,12 +13,12 @@
 <script lang="ts">
 import { Component, Inject, Prop, Vue } from 'vue-property-decorator'
 import TransactionData from '@/modules/transactions/TransactionData'
-import DropdownWithInput from '@/components/inputs/DropdownWithInput.vue'
+import DropdownV2 from '@/components/inputs/Dropdown.vue'
 import { Action } from 'vuex-class'
 import { SendTransactionActionPayload, SendTransactionWithExistingCategoryActionPayload } from '@/modules/transactions/Actions'
 
 @Component({
-  components: { DropdownWithInput }
+  components: { DropdownV2 }
 })
 export default class Transaction extends Vue {
   @Inject() readonly formatter!: Intl.NumberFormat

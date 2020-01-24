@@ -4,7 +4,7 @@ import SendTransactionRequest from '@/api/SendTransactionRequest'
 import TransactionsResponse from '@/api/TransactionsResponse'
 import TransactionData from '@/modules/transactions/TransactionData'
 
-const serverUrl: string = 'http://localhost:80'
+const serverUrl: string = 'http://localhost:8081'
 
 interface ApiClient {
   GetCategories(): Promise<Map<string, Category>>;
@@ -27,13 +27,11 @@ class SpendshelfApiClient implements ApiClient {
   }
 
   async SendTransaction (request: SendTransactionRequest): Promise<void> {
-    console.log(request)
     let req = new Request(serverUrl + '/transactions/' + request.transactionId, {
       method: 'PATCH',
       body: JSON.stringify({ categoryId: request.categoryId })
     })
     let res = await fetch(req)
-    console.log(res)
   }
 
   async CreateCategory (name: string): Promise<Category> {
@@ -50,7 +48,6 @@ class SpendshelfApiClient implements ApiClient {
   async GetTransactions (): Promise<TransactionData[]> {
     let response = await fetch(serverUrl + '/transactions?category=without')
     let json : TransactionsResponse = await response.json()
-    console.log(json)
     if (json === null || json.transactions === null) {
       return []
     }
