@@ -66,7 +66,9 @@ export default class Dropdown extends Vue {
   }
 
   onInputPressEnter () {
-    this.onAddedNew(this.getIdByName(this.inputValue)!)
+    if (this.inputValue) {
+      this.onAddedNew(this.inputValue!)
+    }
   }
 }
 </script>
