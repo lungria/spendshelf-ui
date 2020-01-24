@@ -1,10 +1,8 @@
-import TransactionData from '@/modules/transactions/TransactionData'
-
 export default class SendTransactionRequest {
-  TransactionId: string
-  CategoryId: string
-  constructor (TransactionId: string, CategoryId: string) {
-    this.TransactionId = TransactionId
-    this.CategoryId = CategoryId
+  transactionId: string
+  categoryId: string
+  constructor (transactionId: string, categoryId: string) {
+    this.transactionId = transactionId
+    this.categoryId = categoryId
   }
 }

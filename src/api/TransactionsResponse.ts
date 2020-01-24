@@ -1,5 +1,3 @@
-import TransactionData from '@/modules/transactions/TransactionData'
-
 export default class TransactionsResponse {
   transactions!: TransactionResponseListEntry[]
 

@@ -6,32 +6,32 @@ import SendTransactionRequest from '@/api/SendTransactionRequest'
 
 export const actions: ActionTree<TransactionsState, TransactionsState> = {
   async sendTransaction ({ commit }, payload: SendTransactionWithExistingCategoryActionPayload) {
-    await ApiClient.SendTransaction(new SendTransactionRequest(payload.TransactionId, payload.CategoryId))
-    commit(mutations.removeTransaction.name, payload.TransactionId)
+    await ApiClient.SendTransaction(new SendTransactionRequest(payload.transactionId, payload.categoryId))
+    commit(mutations.removeTransaction.name, payload.transactionId)
   },
 
   async sendTransactionWithNewCategory ({ commit }, payload: SendTransactionActionPayload) {
-    let category = await ApiClient.CreateCategory(payload.CategoryName)
+    let category = await ApiClient.CreateCategory(payload.categoryName)
     commit(mutations.createCategory.name, category)
-    await ApiClient.SendTransaction(new SendTransactionRequest(payload.TransactionId, category.id))
-    commit(mutations.removeTransaction.name, payload.TransactionId)
+    await ApiClient.SendTransaction(new SendTransactionRequest(payload.transactionId, category.id))
+    commit(mutations.removeTransaction.name, payload.transactionId)
   }
 }
 
 export class SendTransactionActionPayload {
-  TransactionId: string
-  CategoryName: string
-  constructor (TransactionId: string, CategoryName: string) {
-    this.TransactionId = TransactionId
-    this.CategoryName = CategoryName
+  transactionId: string
+  categoryName: string
+  constructor (transactionId: string, categoryName: string) {
+    this.transactionId = transactionId
+    this.categoryName = categoryName
   }
 }
 
 export class SendTransactionWithExistingCategoryActionPayload {
-  TransactionId: string
-  CategoryId: string
-  constructor (TransactionId: string, CategoryId: string) {
-    this.TransactionId = TransactionId
-    this.CategoryId = CategoryId
+  transactionId: string
+  categoryId: string
+  constructor (transactionId: string, categoryId: string) {
+    this.transactionId = transactionId
+    this.categoryId = categoryId
   }
 }

@@ -28,9 +28,9 @@ class SpendshelfApiClient implements ApiClient {
 
   async SendTransaction (request: SendTransactionRequest): Promise<void> {
     console.log(request)
-    let req = new Request(serverUrl + '/transactions/' + request.TransactionId, {
+    let req = new Request(serverUrl + '/transactions/' + request.transactionId, {
       method: 'PATCH',
-      body: JSON.stringify({ categoryId: request.CategoryId })
+      body: JSON.stringify({ categoryId: request.categoryId })
     })
     let res = await fetch(req)
     console.log(res)
