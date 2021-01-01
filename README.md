@@ -1,3 +1,7 @@
+# Updated at January 2021
+
+This project is archieved and would not be continued. I've implemented native iOS app and necessity of having web based UI is gone.
+
 # spendshelf-ui
 
 Spendshelf started as a desire to keep money spending in the personal or/and family budget under control.
